@@ -47,6 +47,9 @@ const ShoppingList = () => {
       case 'ADD': {
         return [...state, { id: state.length, name: action.name }];
       }
+      case 'REMOVE': {
+        return state.filter((_, index) => index !== action.index);
+      }
       default:
         return state;
     }
@@ -67,8 +70,19 @@ const ShoppingList = () => {
         <input ref={inputRef} />
       </form>
       <ul>
-        {items.map(item => {
-          return <li key={item.id}>{item.name}</li>;
+        {items.map((item, index) => {
+          return (
+            <li key={item.id}>
+              {item.name}{' '}
+              <button
+                onClick={() => {
+                  dispatch({ type: 'REMOVE', index });
+                }}
+              >
+                X
+              </button>
+            </li>
+          );
         })}
       </ul>
     </>
