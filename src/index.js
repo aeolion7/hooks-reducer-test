@@ -43,11 +43,29 @@ import * as serviceWorker from './serviceWorker';
 const ShoppingList = () => {
   const inputRef = useRef();
   const [items, dispatch] = useReducer((state, action) => {
-    return state;
+    switch (action.type) {
+      case 'ADD': {
+        return [...state, { id: state.length, name: action.name }];
+      }
+      default:
+        return state;
+    }
   }, []);
+
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    dispatch({
+      type: 'ADD',
+      name: inputRef.current.value, // inputRef.current refers to the DOM node
+    });
+    inputRef.current.value = '';
+  };
+
   return (
     <>
-      <input ref={inputRef} />
+      <form onSubmit={handleSubmit}>
+        <input ref={inputRef} />
+      </form>
       <ul>
         {items.map(item => {
           return <li key={item.id}>{item.name}</li>;
