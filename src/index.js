@@ -50,6 +50,9 @@ const ShoppingList = () => {
       case 'REMOVE': {
         return state.filter((_, index) => index !== action.index);
       }
+      case 'CLEAR': {
+        return [];
+      }
       default:
         return state;
     }
@@ -69,6 +72,7 @@ const ShoppingList = () => {
       <form onSubmit={handleSubmit}>
         <input ref={inputRef} />
       </form>
+      <button onClick={() => dispatch({ type: 'CLEAR' })}>Clear List</button>
       <ul>
         {items.map((item, index) => {
           return (
